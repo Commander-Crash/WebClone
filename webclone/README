@@ -8,3 +8,21 @@ To clone a website using the provided Python script, you will need to install th
 
     bs4 (Beautiful Soup): A library for parsing HTML and extracting data from it.
         Install with pip install beautifulsoup4
+directory structure:
+webclone/
+├── webclone.py
+├── templates/
+│   └── index.html
+├── js/
+│   ├── script1.js
+│   └── script2.js
+├── css/
+│   ├── style1.css
+│   └── style2.css
+├── sites/
+│   └── cloned-web-paged.zip
+└── images/
+    ├── image1.jpg
+    ├── image2.png
+    └── ...
+All cloned webpages are located in sites dir
