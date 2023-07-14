@@ -1,0 +1,10 @@
+To clone a website using the provided Python script, you will need to install the following libraries:
+
+    Flask: A web framework for building the web application.
+        Install with pip install flask
+
+    requests: A library for making HTTP requests to download web content.
+        Install with pip install requests
+
+    bs4 (Beautiful Soup): A library for parsing HTML and extracting data from it.
+        Install with pip install beautifulsoup4
