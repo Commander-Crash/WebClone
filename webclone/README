@@ -26,3 +26,6 @@ webclone/
     ├── image2.png
     └── ...
 All cloned webpages are located in sites dir
+uses port 5150 can be changed to whatever.
+how to use: python3 webclone.py
+goto <machine IP>:5150
