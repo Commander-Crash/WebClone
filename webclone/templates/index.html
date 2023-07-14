@@ -117,45 +117,13 @@
                 {% for file in files %}
                     <li>
                         <span>{{ file }}</span>
-                        <span>{{ get_directory_size(file) }}</span>
                         <div class="file-actions">
-                            <a href="/download/{{ file }}">Download</a>
+                            <a href="/download/{{ file|urlencode }}">Download</a>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
         </div>
     </div>
-    <script>
-        // Function to format file size in bytes to a readable format
-        function formatBytes(bytes, decimals = 2) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        }
-        
-        // Function to fetch directory size from the server
-        function getDirectorySize(directory) {
-            return fetch(`/size/${directory}`)
-                .then(response => response.json())
-                .then(data => formatBytes(data.size));
-        }
-        
-        // Function to update the directory size in the HTML
-        async function updateDirectorySizes() {
-            const fileElements = document.querySelectorAll('.file-list li');
-            for (const fileElement of fileElements) {
-                const fileName = fileElement.querySelector('span').textContent;
-                const fileSize = await getDirectorySize(fileName);
-                fileElement.querySelector('span:last-child').textContent = fileSize;
-            }
-        }
-        
-        // Update directory sizes when the page is loaded
-        window.addEventListener('load', updateDirectorySizes);
-    </script>
 </body>
 </html>
