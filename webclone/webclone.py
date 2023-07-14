@@ -3,19 +3,11 @@ import requests
 import shutil
 from urllib.parse import urlparse, urljoin
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, abort
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
 
 app = Flask(__name__)
-
-def get_directory_size(directory):
-    total_size = 0
-    for dirpath, dirnames, filenames in os.walk(directory):
-        for f in filenames:
-            fp = os.path.join(dirpath, f)
-            total_size += os.path.getsize(fp)
-    return total_size
 
 def clone_webpage(url, directory):
     response = requests.get(url, headers={"User-Agent": USER_AGENT})
@@ -70,7 +62,23 @@ def index():
     directory = "/home/pi/webclone/sites"
     files = [f for f in os.listdir(directory) if f.endswith(".zip")]
 
-    return render_template("index.html", files=files, get_directory_size=get_directory_size)
+    return render_template("index.html", files=files)
+
+@app.route("/download/<filename>", methods=["GET"])
+def download_zip(filename):
+    # Specify the path to the zip files directory
+    directory = "/home/pi/webclone/sites"
+
+    # Get the full path of the requested zip file
+    zip_file_path = os.path.join(directory, filename)
+
+    # Check if the zip file exists
+    if os.path.isfile(zip_file_path):
+        # Return the zip file as a downloadable attachment
+        return send_file(zip_file_path, as_attachment=True)
+    else:
+        # If the zip file does not exist, return a 404 error
+        abort(404)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5150)
